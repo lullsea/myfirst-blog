@@ -1,33 +1,28 @@
 import Image from "next/image";
-import Card from "next"
 import "./styles/home.css";
+import blogs from "./articles/blogs.json";
 
 function ArticleCard({id, title, date, content, wScale = 1, hScale = 1, src}) {
   const h = hScale * 250;
   const w = wScale * 250;
+  const dimension = {width: w + 'px', height: h + 'px'};
   return (
-    <a className={`bg-gray-500 inline-block m-4 h-[${h}px] w-[${w}px] overflow-hidden`} href={"./articles/" + id}>
+    <a className={`bg-gray-500 inline-block m-4] overflow-hidden`} href={"./articles/" + id} style={dimension}>
       {/* Card image */}
-      <Image
-      src={src}
-      alt=""
-      className="absolute z-0"
-      width={w}
-      height={h}
-      />
-      <header className="relative text-2xl font-semibold text-white text-start p-1 bg-gray-700 bg-opacity-30">
+      <img src={src} style={{
+        position: 'absolute',
+        ...dimension
+      }}/>
+      <header className="relative inline-block text-2xl font-semibold text-white text-start p-1 bg-gray-700 bg-opacity-30 w-fit">
         {title}
       </header>
-      <div className={`relative`} style={{marginTop: h + "px"}}>
-        hello
-      </div>
     </a>
   )
 }
 
 export default function Home() {
   return (
-    <main className="">
+    <main className="pb-20">
       <div>
         {/* Banner image */}
         <Image
@@ -46,12 +41,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div id="contents" className="inline-block w-4/5 z-20 relative mt-[460px] ml-[10%] p-2 text-center">
-        <div className="flex gap-4 flex-wrap">
-          <ArticleCard src="/article-images/malaysia-flag.jpg" title="Malaysia economic outlook is looking better for 2025" wScale={2}/>
-          <ArticleCard src="/article-images/elon-musk.jpg" title="Elon Musk reportedly being sued by investors" wScale={1} id="1"/>
-          <ArticleCard title="Hello"/>
-          <ArticleCard title="Hello"/>
+      <div id="contents" className="inline-block w-4/5 z-20 relative mt-[460px] ml-[10%] py-2 text-center">
+        <div className="mx-auto flex gap-3 flex-wrap">
+          {blogs["items"].map((item) => <ArticleCard key={item.id} src={item.img} title={item.title} id={item.id} wScale={item.wScale || 1}/>)}
         </div>
       </div>
 
